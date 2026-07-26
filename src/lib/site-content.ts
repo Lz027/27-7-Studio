@@ -1,5 +1,5 @@
 export const site = {
-  brand: "27/7 Studios",
+  brand: "27/7 Studio",
   byline: "by Ahmed Baghni",
   nav: [
     { label: "Work", href: "#work" },
@@ -8,7 +8,7 @@ export const site = {
     { label: "Contact", href: "#contact" },
   ],
   hero: {
-    studios: {
+    studio: {
       label: "Informatics Engineering · Indonesia",
       title: "Creative websites for small businesses.",
       subtitle:
@@ -32,7 +32,7 @@ export const site = {
   },
   mission: {
     label: "Mission",
-    text: "Small businesses are the backbone of every economy, yet 27% of them in the United States still operate without a website in 2026. That is nearly 9 million businesses invisible to the 81% of consumers who research online before making a purchase. First impressions are formed in milliseconds, and 94% of those impressions are tied directly to website design. A business without a strong web presence does not just miss clicks — it misses trust, credibility, and revenue. The average small business without a website loses approximately $17,000 in annual revenue. I started 27/7 Studios to close that gap. I build simple, credible, launch-ready websites that help small businesses look real online, earn trust faster, and turn browsers into buyers.",
+    text: "Small businesses are the backbone of every economy, yet 27% of them in the United States still operate without a website in 2026. That is nearly 9 million businesses invisible to the 81% of consumers who research online before making a purchase. First impressions are formed in milliseconds, and 94% of those impressions are tied directly to website design. A business without a strong web presence does not just miss clicks — it misses trust, credibility, and revenue. The average small business without a website loses approximately $17,000 in annual revenue. I started 27/7 Studio to close that gap. I build simple, credible, launch-ready websites that help small businesses look real online, earn trust faster, and turn browsers into buyers.",
   },
   services: {
     label: "Services",
@@ -90,7 +90,7 @@ export const site = {
       },
       {
         year: "2025",
-        name: "27/7 Studios Site",
+        name: "27/7 Studio Site",
         tags: ["Design System", "Mode Switch"],
         description:
           "This site itself — a mode-switching editorial portfolio built with React, Tailwind, and careful attention to color, motion, and content hierarchy.",
@@ -100,7 +100,7 @@ export const site = {
   },
   biography: {
     label: "Biography",
-    text: "I am Ahmed Baghni, an Informatics Engineering student and founder of 27/7 Studios. I was one of only two students selected from Libya for the Genusian Scholarship, and I moved to Indonesia in 2023 to study at Nusa Putra University, where I gained deeper access to AI, smart technology, UI/UX thinking, and frontend logic. My work combines creativity, business thinking, and practical execution. One of my projects, Shoseki, brings together 250 tools to solve the problem of scattered, hard-to-find useful resources. My research paper reflects the same structured approach to technical work. I made this site to present my work clearly, build trust, and show how I can help.",
+    text: "I am Ahmed Baghni, an Informatics Engineering student and founder of 27/7 Studio. I was one of only two students selected from Libya for the Genusian Scholarship, and I moved to Indonesia in 2023 to study at Nusa Putra University, where I gained deeper access to AI, smart technology, UI/UX thinking, and frontend logic. My work combines creativity, business thinking, and practical execution. One of my projects, Shoseki, brings together 250 tools to solve the problem of scattered, hard-to-find useful resources. My research paper reflects the same structured approach to technical work. I made this site to present my work clearly, build trust, and show how I can help.",
   },
   journey: {
     label: "Journey",
@@ -130,7 +130,7 @@ export const site = {
     label: "Contact",
     intro:
       "I am open to collaborations on design systems, frontend architecture, and small business web projects. If you have an idea or a project in mind, reach out.",
-    email: "hello@277studios.com",
+    email: "hello@277studio.com",
     shoseki: "https://project-shoseki.netlify.app",
   },
 };

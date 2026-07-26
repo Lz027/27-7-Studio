@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
-export type Mode = "studios" | "work" | "about";
+export type Mode = "studio" | "work" | "about";
 
 interface ModeContextType {
   mode: Mode;
@@ -11,7 +11,7 @@ interface ModeContextType {
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export function ModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<Mode>("studios");
+  const [mode, setModeState] = useState<Mode>("studio");
 
   const setMode = useCallback((newMode: Mode) => {
     setModeState(newMode);
@@ -19,9 +19,9 @@ export function ModeProvider({ children }: { children: ReactNode }) {
 
   const cycleMode = useCallback(() => {
     setModeState((current) => {
-      if (current === "studios") return "work";
+      if (current === "studio") return "work";
       if (current === "work") return "about";
-      return "studios";
+      return "studio";
     });
   }, []);
 

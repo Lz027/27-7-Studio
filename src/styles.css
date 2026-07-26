@@ -61,7 +61,7 @@
 }
 
 /* Mode-switching CSS variable sets */
-[data-mode="studios"] {
+[data-mode="studio"] {
   --primary: oklch(0.40 0.16 355);
   --primary-foreground: oklch(0.985 0.01 85);
   --accent: oklch(0.92 0.05 355);

@@ -12,9 +12,9 @@ import { Publications } from "@/components/site/Publications";
 import { ContactAbout } from "@/components/site/ContactAbout";
 import { Footer } from "@/components/site/Footer";
 
-const TITLE = "Ahmed Baghni — 27/7 Studios";
+const TITLE = "Ahmed Baghni — 27/7 Studio";
 const DESCRIPTION =
-  "27/7 Studios by Ahmed Baghni — A 3-mode editorial portfolio for small business web development, systems thinking, and product design.";
+  "27/7 Studio by Ahmed Baghni — A 3-mode editorial portfolio for small business web development, systems thinking, and product design.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,7 +49,7 @@ function IndexContent() {
       <main className="mx-auto max-w-4xl">
         <Hero />
 
-        {mode === "studios" && (
+        {mode === "studio" && (
           <>
             <Mission />
             <Services />

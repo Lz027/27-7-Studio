@@ -5,7 +5,7 @@ export function ModeSwitch() {
 
   const getRotation = (currentMode: Mode) => {
     switch (currentMode) {
-      case "studios":
+      case "studio":
         return 0;
       case "work":
         return 120;

@@ -23,7 +23,7 @@ export function Nav() {
           <button
             type="button"
             onClick={() => {
-              setMode("studios");
+              setMode("studio");
               const el = document.getElementById("services");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
