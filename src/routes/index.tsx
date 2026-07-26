@@ -1,24 +1,50 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Nav } from "@/components/site/Nav";
+import { Hero } from "@/components/site/Hero";
+import { TheaterBar } from "@/components/site/TheaterBar";
+import { PortfolioStories } from "@/components/site/PortfolioStories";
+import { Stats } from "@/components/site/Stats";
+import { Services } from "@/components/site/Services";
+import { About } from "@/components/site/About";
+import { ProofMagnets } from "@/components/site/ProofMagnets";
+import { Contact } from "@/components/site/Contact";
+import { Footer } from "@/components/site/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "27/7 Studios by Ahmed Baghni — Creative websites for small businesses";
+const DESCRIPTION =
+  "27/7 Studios by Ahmed Baghni designs small business websites, landing pages, and online presence with a focus on UI/UX, AI-assisted frontend logic, and clear, trustworthy brand structure.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <Nav />
+      <main>
+        <Hero />
+        <TheaterBar />
+        <PortfolioStories />
+        <Stats />
+        <Services />
+        <About />
+        <ProofMagnets />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
