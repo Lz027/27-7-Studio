@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ModeProvider, useMode } from "@/components/site/ModeContext";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
-import { TheaterBar } from "@/components/site/TheaterBar";
-import { PortfolioStories } from "@/components/site/PortfolioStories";
-import { Stats } from "@/components/site/Stats";
+import { Mission } from "@/components/site/Mission";
 import { Services } from "@/components/site/Services";
-import { About } from "@/components/site/About";
-import { ProofMagnets } from "@/components/site/ProofMagnets";
-import { Contact } from "@/components/site/Contact";
+import { Workstyle } from "@/components/site/Workstyle";
+import { Projects } from "@/components/site/Projects";
+import { Biography } from "@/components/site/Biography";
+import { Journey } from "@/components/site/Journey";
+import { Publications } from "@/components/site/Publications";
+import { ContactAbout } from "@/components/site/ContactAbout";
 import { Footer } from "@/components/site/Footer";
 
-const TITLE = "27/7 Studios by Ahmed Baghni — Creative websites for small businesses";
+const TITLE = "Ahmed Baghni — 27/7 Studios";
 const DESCRIPTION =
-  "27/7 Studios by Ahmed Baghni designs small business websites, landing pages, and online presence with a focus on UI/UX, AI-assisted frontend logic, and clear, trustworthy brand structure.";
+  "27/7 Studios by Ahmed Baghni — A 3-mode editorial portfolio for small business web development, systems thinking, and product design.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,22 +29,48 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: DESCRIPTION },
     ],
   }),
-  component: Index,
+  component: IndexPage,
 });
 
-function Index() {
+function IndexPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <ModeProvider>
+      <IndexContent />
+    </ModeProvider>
+  );
+}
+
+function IndexContent() {
+  const { mode } = useMode();
+
+  return (
+    <div data-mode={mode} className="min-h-screen bg-background text-foreground transition-colors duration-700">
       <Nav />
-      <main>
+      <main className="mx-auto max-w-4xl">
         <Hero />
-        <TheaterBar />
-        <PortfolioStories />
-        <Stats />
-        <Services />
-        <About />
-        <ProofMagnets />
-        <Contact />
+
+        {mode === "studios" && (
+          <>
+            <Mission />
+            <Services />
+          </>
+        )}
+
+        {mode === "work" && (
+          <>
+            <Workstyle />
+            <Projects />
+          </>
+        )}
+
+        {mode === "about" && (
+          <>
+            <Biography />
+            <Journey />
+            <Publications />
+            <ContactAbout />
+          </>
+        )}
       </main>
       <Footer />
     </div>

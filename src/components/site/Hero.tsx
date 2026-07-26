@@ -1,47 +1,48 @@
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { site } from "@/lib/site-content";
+import { useMode } from "./ModeContext";
+import { ModeSwitch } from "./ModeSwitch";
 
 export function Hero() {
-  const { title, subtitle, support, primaryCta, secondaryCta } = site.hero;
+  const { mode } = useMode();
+  const heroContent = site.hero[mode];
+
   return (
-    <section id="top" className="relative overflow-hidden px-6 pt-14 pb-20 sm:pt-20 sm:pb-28">
-      {/* soft magenta orbs */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-accent/60 blur-3xl"
-      />
+    <section id="top" className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-12">
+      <div className="mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-8">
+        {/* Left Column: Text & CTA */}
+        <div className="flex-1 animate-fade-up">
+          <span className="inline-block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {heroContent.label}
+          </span>
 
-      <div className="mx-auto max-w-4xl text-center">
-        <span className="inline-flex items-center gap-2 rounded-full stitch px-4 py-1.5 text-xs font-medium text-primary">
-          <Sparkles className="h-3.5 w-3.5" />
-          {site.brand} {site.byline}
-        </span>
+          <h1 className="mt-3 text-3xl font-display leading-[1.1] text-foreground sm:text-5xl">
+            {heroContent.title}
+          </h1>
 
-        <h1 className="mt-6 text-4xl leading-[1.05] font-display text-foreground sm:text-6xl">
-          {title}
-        </h1>
+          <p className="mt-4 max-w-xl text-base text-foreground/80 leading-relaxed sm:text-lg">
+            {heroContent.subtitle}
+          </p>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground/80">{subtitle}</p>
-        <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground">{support}</p>
+          <div className="mt-6">
+            <a
+              href={heroContent.cta.href}
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80 group"
+            >
+              <span>{heroContent.cta.label}</span>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a
-            href={primaryCta.href}
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-squeeze transition-transform hover:-translate-y-0.5"
-          >
-            {primaryCta.label}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
-          <a
-            href={secondaryCta.href}
-            className="inline-flex items-center gap-2 rounded-full stitch bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            {secondaryCta.label}
-          </a>
+        {/* Right Column: Mode Switch & Visual Reveal */}
+        <div className="flex flex-col items-center justify-center md:items-end animate-fade-up-delay-1">
+          <div className="flex flex-col items-center gap-4 bg-card/60 p-6 rounded-2xl border border-border/40 shadow-sm backdrop-blur-sm">
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+              Switch Mode
+            </span>
+            <ModeSwitch />
+          </div>
         </div>
       </div>
     </section>

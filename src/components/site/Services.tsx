@@ -1,61 +1,70 @@
 import { Check } from "lucide-react";
 import { site } from "@/lib/site-content";
+import { useMode } from "./ModeContext";
 
 export function Services() {
+  const { setMode } = useMode();
+
   return (
-    <section id="services" className="px-6 py-20 sm:py-28 bg-card/60">
-      <div className="mx-auto max-w-6xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-display">Services</h2>
-          <p className="mt-3 text-muted-foreground">{site.services.intro}</p>
+    <section id="services" className="px-6 py-12 border-t border-border/40">
+      <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-[140px_1fr] gap-6 md:gap-12">
+        {/* Sticky Label Left */}
+        <div>
+          <span className="section-label">{site.services.label}</span>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {site.services.tiers.map((t) => (
-            <div
-              key={t.name}
-              className={
-                "flex flex-col rounded-3xl bg-card p-7 transition-transform hover:-translate-y-1 " +
-                (t.featured
-                  ? "stitch-strong shadow-squeeze"
-                  : "stitch")
-              }
+        {/* Content Right */}
+        <div className="space-y-6">
+          {/* Banner link above tiers */}
+          <div className="rounded-lg bg-card/80 p-3 text-center sm:text-left border border-border/50">
+            <button
+              type="button"
+              onClick={() => setMode("work")}
+              className="text-sm font-medium text-primary hover:underline cursor-pointer"
             >
-              {t.featured && (
-                <span className="mb-3 inline-flex w-fit rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
-                  Most popular
-                </span>
-              )}
-              <h3 className="font-display text-2xl">{t.name}</h3>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="font-display text-4xl text-primary">{t.price}</span>
-              </div>
-              <p className="mt-3 text-sm text-foreground/80">{t.blurb}</p>
+              {site.services.banner}
+            </button>
+          </div>
 
-              <ul className="mt-6 space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <Check className="mt-0.5 h-4 w-4 flex-none text-primary" />
-                  <span className="text-foreground/85">{t.included}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="mt-0.5 h-4 w-4 flex-none text-primary" />
-                  <span className="text-foreground/85">Delivery: {t.delivery}</span>
-                </li>
-              </ul>
-
-              <a
-                href="#contact"
-                className={
-                  "mt-8 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors " +
-                  (t.featured
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "stitch bg-background text-foreground hover:bg-accent")
-                }
+          {/* 3 Tier Cards */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {site.services.tiers.map((tier) => (
+              <div
+                key={tier.name}
+                className={`relative flex flex-col justify-between rounded-xl p-5 border ${
+                  tier.featured
+                    ? "border-primary/60 bg-card shadow-sm"
+                    : "border-border/60 bg-card/50"
+                }`}
               >
-                Start with {t.name}
-              </a>
-            </div>
-          ))}
+                <div>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-base font-semibold text-foreground font-sans">
+                      {tier.name}
+                    </h3>
+                    <span className="text-sm font-bold text-primary font-display">
+                      {tier.price}
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+                    {tier.blurb}
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-border/40 text-xs text-foreground/80 space-y-1.5">
+                    <div className="flex items-start gap-1.5">
+                      <Check className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+                      <span>{tier.included}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 text-[11px] font-medium text-muted-foreground">
+                  Timeline: {tier.delivery}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
