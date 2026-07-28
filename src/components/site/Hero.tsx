@@ -11,7 +11,7 @@ export function Hero() {
     <section id="top" className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-12 mode-burst-bg">
       <div className="relative z-10 mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-8">
         {/* Left Column */}
-        <div className="flex-1 reveal visible">
+        <div className="flex-1 reveal visible min-w-0">
           <h1 className="text-3xl font-display leading-[1.1] text-primary sm:text-5xl transition-colors duration-700">
             {heroContent.title}
           </h1>
@@ -31,8 +31,8 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right Column — Compass */}
-        <div className="flex items-center justify-center md:justify-end reveal visible reveal-delay-1">
+        {/* Right Column — Gauge */}
+        <div className="flex items-center justify-center md:justify-end reveal visible reveal-delay-1 shrink-0">
           <ModeSwitch />
         </div>
       </div>
