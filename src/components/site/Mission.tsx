@@ -1,42 +1,47 @@
 import { site } from "@/lib/site-content";
+import { useInView } from "@/hooks/useInView";
+
+const STATS = [
+  { value: "27%", label: "of US small businesses have no website" },
+  { value: "9M", label: "businesses invisible online" },
+  { value: "81%", label: "of consumers research before buying" },
+  { value: "94%", label: "of first impressions are design-based" },
+  { value: "$17K", label: "avg. annual revenue lost without a site" },
+];
 
 export function Mission() {
+  const { ref, inView } = useInView({ threshold: 0.2 });
+
   return (
     <section id="mission" className="px-6 py-12 border-t border-border/40">
       <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-[140px_1fr] gap-6 md:gap-12">
-        {/* Sticky Label Left */}
         <div>
-          <span className="section-label">
-            {site.mission.label}
-          </span>
+          <span className="section-label">{site.mission.label}</span>
         </div>
 
-        {/* Content Right */}
-        <div>
-          <p className="text-base sm:text-lg leading-relaxed text-foreground/90 font-sans">
-            Small businesses are the backbone of every economy, yet{" "}
-            <strong className="font-semibold text-foreground">
-              27% of them in the United States still operate without a website in 2026
-            </strong>
-            . That is nearly{" "}
-            <strong className="font-semibold text-foreground">9 million businesses</strong>{" "}
-            invisible to the{" "}
-            <strong className="font-semibold text-foreground">
-              81% of consumers who research online before making a purchase
-            </strong>
-            . First impressions are formed in milliseconds, and{" "}
-            <strong className="font-semibold text-foreground">
-              94% of those impressions are tied directly to website design
-            </strong>
-            . A business without a strong web presence does not just miss clicks — it misses trust,
-            credibility, and revenue. The average small business without a website loses approximately{" "}
-            <strong className="font-semibold text-primary">
-              $17,000 in annual revenue
-            </strong>
-            . I started 27/7 Studios to close that gap. I build simple, credible, launch-ready
-            websites that help small businesses look real online, earn trust faster, and turn
-            browsers into buyers.
+        <div ref={ref} className="space-y-8">
+          <p
+            className={`text-base leading-relaxed text-foreground/90 reveal ${
+              inView ? "visible" : ""
+            }`}
+          >
+            {site.mission.text}
           </p>
+
+          {/* Stat Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
+            {STATS.map((stat, i) => (
+              <div
+                key={stat.value}
+                className={`rounded-xl border border-border/50 bg-card/50 p-4 text-center reveal ${
+                  inView ? "visible" : ""
+                } reveal-delay-${Math.min(i + 1, 4)} hover-lift`}
+              >
+                <div className="stat-number">{stat.value}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
