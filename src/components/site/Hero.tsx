@@ -9,7 +9,7 @@ export function Hero() {
 
   return (
     <section id="top" className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-12 mode-burst-bg">
-      <div className="relative z-10 mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-8">
+      <div className="relative z-10 mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         {/* Left Column */}
         <div className="flex-1 reveal visible">
           <span className="inline-block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -35,14 +35,9 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="flex flex-col items-center justify-center md:items-end reveal visible reveal-delay-1">
-          <div className="flex flex-col items-center gap-4 bg-card/60 p-6 rounded-2xl border border-border/40 shadow-sm backdrop-blur-sm">
-            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-              Switch Mode
-            </span>
-            <ModeSwitch />
-          </div>
+        {/* Right Column — Big Tilted Wheel */}
+        <div className="flex items-center justify-center md:justify-end reveal visible reveal-delay-1">
+          <ModeSwitch />
         </div>
       </div>
     </section>
