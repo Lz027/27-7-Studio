@@ -1,14 +1,6 @@
 import { site } from "@/lib/site-content";
 import { useInView } from "@/hooks/useInView";
 
-const STATS = [
-  { value: "27%", label: "of US small businesses have no website" },
-  { value: "9M", label: "businesses invisible online" },
-  { value: "81%", label: "of consumers research before buying" },
-  { value: "94%", label: "of first impressions are design-based" },
-  { value: "$17K", label: "avg. annual revenue lost without a site" },
-];
-
 export function Mission() {
   const { ref, inView } = useInView({ threshold: 0.2 });
 
@@ -25,23 +17,24 @@ export function Mission() {
               inView ? "visible" : ""
             }`}
           >
-            {site.mission.text}
+            Small businesses are the backbone of every economy, yet{" "}
+            <span className="text-primary font-semibold">27%</span> of them in
+            the United States still operate without a website in 2026. That is
+            nearly <span className="text-primary font-semibold">9 million</span>{" "}
+            businesses invisible to the{" "}
+            <span className="text-primary font-semibold">81%</span> of
+            consumers who research online before making a purchase. First
+            impressions are formed in milliseconds, and{" "}
+            <span className="text-primary font-semibold">94%</span> of those
+            impressions are tied directly to website design. A business without
+            a strong web presence does not just miss clicks — it misses trust,
+            credibility, and revenue. The average small business without a
+            website loses approximately{" "}
+            <span className="text-primary font-semibold">$17,000</span> in annual
+            revenue. I started 27/7 Studio to close that gap. I build simple,
+            credible, launch-ready websites that help small businesses look real
+            online, earn trust faster, and turn browsers into buyers.
           </p>
-
-          {/* Stat Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
-            {STATS.map((stat, i) => (
-              <div
-                key={stat.value}
-                className={`rounded-xl border border-border/50 bg-card/50 p-4 text-center reveal ${
-                  inView ? "visible" : ""
-                } reveal-delay-${Math.min(i + 1, 4)} hover-lift`}
-              >
-                <div className="stat-number">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
