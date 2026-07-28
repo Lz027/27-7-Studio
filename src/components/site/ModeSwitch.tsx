@@ -18,7 +18,6 @@ const MODE_DESCS: Record<Mode, string> = {
   about: "Bio & contact",
 };
 
-// Ring rotation so active sector sits at top (12 o'clock)
 const RING_ROTATION: Record<Mode, number> = {
   studio: 0,
   work: 120,
@@ -31,7 +30,6 @@ export function ModeSwitch() {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      {/* Instruction */}
       <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/50 font-medium">
         Click to switch
       </span>
@@ -40,11 +38,10 @@ export function ModeSwitch() {
         type="button"
         onClick={cycleMode}
         aria-label={`Current mode: ${mode}. Click to switch.`}
-        className="relative cursor-pointer"
+        className="group relative cursor-pointer"
         style={{
           width: 240,
           height: 240,
-          // Slight tilt for dynamism
           transform: "rotate(-12deg)",
           transformOrigin: "center center",
         }}
@@ -63,13 +60,12 @@ export function ModeSwitch() {
             transform: `rotate(${rotation}deg)`,
             transition: "transform 1.2s cubic-bezier(0.34, 1.8, 0.64, 1)",
             opacity: 0.3,
-            // Donut mask: hole in center
             mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
           }}
         />
 
-        {/* ===== FROSTED GLASS OVERLAY (same donut shape) ===== */}
+        {/* ===== FROSTED GLASS OVERLAY ===== */}
         <div
           className="absolute inset-0"
           style={{
@@ -107,9 +103,42 @@ export function ModeSwitch() {
           }}
         />
 
-        {/* ===== CENTER GLASS DISC (mode name lives here) ===== */}
+        {/* ===== CENTER GLOW BACKDROP ===== */}
         <div
-          className="absolute"
+          className="absolute pointer-events-none"
+          style={{
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "58%",
+            height: "58%",
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${MODE_COLORS[mode]}35 0%, ${MODE_COLORS[mode]}10 50%, transparent 70%)`,
+            filter: "blur(16px)",
+            transition: "background 0.7s ease",
+            zIndex: 5,
+          }}
+        />
+
+        {/* ===== HOVER GLOW RING (subtle edge glow on hover) ===== */}
+        <div
+          className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
+          style={{
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "56%",
+            height: "56%",
+            borderRadius: "50%",
+            boxShadow: `0 0 28px 4px ${MODE_COLORS[mode]}40, 0 0 60px 12px ${MODE_COLORS[mode]}18`,
+            transition: "box-shadow 0.7s ease, opacity 0.3s ease",
+            zIndex: 6,
+          }}
+        />
+
+        {/* ===== CENTER GLASS DISC ===== */}
+        <div
+          className="absolute transition-transform duration-300 ease-out group-hover:scale-105"
           style={{
             top: "50%",
             left: "50%",
@@ -118,28 +147,35 @@ export function ModeSwitch() {
             height: "52%",
             borderRadius: "50%",
             background:
-              "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%)",
-            backdropFilter: "blur(6px) saturate(120%)",
-            WebkitBackdropFilter: "blur(6px) saturate(120%)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            boxShadow:
-              "0 4px 20px -6px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.2)",
+              "linear-gradient(160deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 100%)",
+            backdropFilter: "blur(8px) saturate(130%)",
+            WebkitBackdropFilter: "blur(8px) saturate(130%)",
+            border: `1px solid ${MODE_COLORS[mode]}40`,
+            boxShadow: `
+              0 0 24px -4px ${MODE_COLORS[mode]}50,
+              0 4px 20px -6px rgba(0,0,0,0.1),
+              inset 0 1px 2px rgba(255,255,255,0.25)
+            `,
+            transition: "border-color 0.7s ease, box-shadow 0.7s ease, transform 0.3s ease-out",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
+            zIndex: 10,
           }}
         >
           <div
             className="text-[13px] font-bold uppercase tracking-[0.18em]"
-            style={{ color: MODE_COLORS[mode], transition: "color 0.7s ease" }}
+            style={{
+              color: MODE_COLORS[mode],
+              textShadow: `0 0 20px ${MODE_COLORS[mode]}60, 0 0 40px ${MODE_COLORS[mode]}30`,
+              transition: "color 0.7s ease, text-shadow 0.7s ease",
+            }}
           >
             {MODE_LABELS[mode]}
           </div>
-          <div
-            className="text-[9px] text-muted-foreground mt-1 uppercase tracking-wider"
-          >
+          <div className="text-[9px] text-muted-foreground mt-1 uppercase tracking-wider">
             {MODE_DESCS[mode]}
           </div>
         </div>
