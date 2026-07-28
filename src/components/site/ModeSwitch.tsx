@@ -6,26 +6,28 @@ const MODE_COLORS = {
   about: "#c4942a",
 };
 
-const MODE_NEEDLE: Record<Mode, number> = {
-  studio: 150,
-  work: -90,
-  about: 30,
+const MODE_LABELS: Record<Mode, string> = {
+  studio: "STUDIO",
+  work: "WORK",
+  about: "ABOUT",
 };
 
-const MODE_INFO: Record<Mode, { title: string; desc: string }> = {
-  studio: { title: "Studio", desc: "Services & pricing" },
-  work: { title: "Work", desc: "Projects & process" },
-  about: { title: "About", desc: "Bio & contact" },
+// Rotation angles for the disc so the active sector aligns with the pointer
+const DISC_ROTATION: Record<Mode, number> = {
+  studio: 30,
+  work: 150,
+  about: 270,
 };
 
 export function ModeSwitch() {
   const { mode, cycleMode } = useMode();
-  const angle = MODE_NEEDLE[mode];
+  const rotation = DISC_ROTATION[mode];
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 font-medium">
-        Click to switch mode
+    <div className="flex flex-col items-center gap-2">
+      {/* Instruction */}
+      <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/50 font-medium">
+        Click to switch
       </span>
 
       <button
@@ -33,122 +35,152 @@ export function ModeSwitch() {
         onClick={cycleMode}
         aria-label={`Current mode: ${mode}. Click to switch.`}
         className="relative cursor-pointer"
-        style={{ width: 220, height: 220 }}
+        style={{
+          width: 280,
+          height: 180,
+          // Tilt: up-right to down-left
+          transform: "rotate(-22deg)",
+          transformOrigin: "center center",
+        }}
       >
-        {/* Outer colored ring */}
+        {/* ===== SEMI-CIRCLE WINDOW (bottom-flat, top-arc) ===== */}
         <div
-          className="absolute inset-0 rounded-full p-[3px]"
+          className="absolute inset-0 overflow-hidden"
           style={{
-            background: `conic-gradient(
-              from -90deg,
-              ${MODE_COLORS.work} 0deg 120deg,
-              ${MODE_COLORS.about} 120deg 240deg,
-              ${MODE_COLORS.studio} 240deg 360deg
-            )`,
+            borderRadius: "140px 140px 0 0",
+            // Liquid glass base frame
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
+            boxShadow:
+              "inset 0 1px 2px rgba(255,255,255,0.25), 0 8px 32px -4px rgba(0,0,0,0.12)",
+            border: "1px solid rgba(255,255,255,0.15)",
           }}
         >
-          {/* Inner frosted glass face */}
+          {/* ===== ROTATING DISC (full circle, clipped by parent) ===== */}
           <div
-            className="w-full h-full rounded-full relative overflow-hidden"
+            className="absolute"
             style={{
-              background:
-                "linear-gradient(160deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 100%)",
-              backdropFilter: "blur(16px) saturate(150%)",
-              WebkitBackdropFilter: "blur(16px) saturate(150%)",
-              boxShadow:
-                "inset 0 1px 3px rgba(255,255,255,0.2), inset 0 -1px 3px rgba(0,0,0,0.05)",
+              width: 280,
+              height: 280,
+              top: -100,
+              left: 0,
+              borderRadius: "50%",
+              background: `conic-gradient(
+                from 0deg,
+                ${MODE_COLORS.studio} 0deg 120deg,
+                ${MODE_COLORS.work} 120deg 240deg,
+                ${MODE_COLORS.about} 240deg 360deg
+              )`,
+              transform: `rotate(${rotation}deg)`,
+              transition:
+                "transform 1s cubic-bezier(0.34, 1.8, 0.64, 1)",
+              boxShadow: "inset 0 0 40px rgba(0,0,0,0.15)",
             }}
+          />
+
+          {/* ===== LIQUID GLASS OVERLAY ===== */}
+          {/* Center is clear, edges are heavily blurred — only active mode shows through */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `
+                radial-gradient(ellipse 45% 55% at 50% 75%, transparent 0%, transparent 35%, rgba(255,255,255,0.55) 65%, rgba(255,255,255,0.85) 100%)
+              `,
+              mixBlendMode: "overlay",
+            }}
+          />
+
+          {/* Frosted glass layer */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backdropFilter: "blur(6px) saturate(140%)",
+              WebkitBackdropFilter: "blur(6px) saturate(140%)",
+              maskImage:
+                "radial-gradient(ellipse 50% 60% at 50% 80%, transparent 25%, black 70%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 50% 60% at 50% 80%, transparent 25%, black 70%)",
+            }}
+          />
+
+          {/* Inner highlight ring */}
+          <div
+            className="absolute inset-0 pointer-events-none rounded-t-full"
+            style={{
+              boxShadow: "inset 0 2px 8px rgba(255,255,255,0.2), inset 0 -2px 6px rgba(0,0,0,0.05)",
+            }}
+          />
+
+          {/* Mode labels — positioned along the arc */}
+          <span
+            className="absolute text-[10px] font-bold uppercase tracking-widest text-foreground/40 pointer-events-none"
+            style={{ left: "50%", top: "18%", transform: "translateX(-50%)" }}
           >
-            {/* Tick marks */}
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute top-1/2 left-1/2 bg-foreground/10 origin-bottom"
-                style={{
-                  width: i % 3 === 0 ? 2 : 1,
-                  height: i % 3 === 0 ? 10 : 5,
-                  transform: `translate(-50%, -100%) rotate(${i * 30}deg) translateY(-92px)`,
-                }}
-              />
-            ))}
+            {MODE_LABELS.work}
+          </span>
+          <span
+            className="absolute text-[10px] font-bold uppercase tracking-widest text-foreground/40 pointer-events-none"
+            style={{ right: "12%", top: "42%", transform: "rotate(25deg)" }}
+          >
+            {MODE_LABELS.about}
+          </span>
+          <span
+            className="absolute text-[10px] font-bold uppercase tracking-widest text-foreground/40 pointer-events-none"
+            style={{ left: "12%", top: "42%", transform: "rotate(-25deg)" }}
+          >
+            {MODE_LABELS.studio}
+          </span>
+        </div>
 
-            {/* Mode labels */}
-            <span className="absolute top-5 left-1/2 -translate-x-1/2 text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              Work
-            </span>
-            <span className="absolute bottom-6 right-6 text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              About
-            </span>
-            <span className="absolute bottom-6 left-6 text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              Studio
-            </span>
+        {/* ===== FIXED POINTER (triangle on the flat edge, pointing up into the arc) ===== */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: "50%",
+            bottom: -2,
+            transform: "translateX(-50%)",
+            zIndex: 20,
+          }}
+        >
+          <div
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: "8px solid transparent",
+              borderRight: "8px solid transparent",
+              borderBottom: `14px solid ${MODE_COLORS[mode]}`,
+              filter: "drop-shadow(0 -1px 3px rgba(0,0,0,0.3))",
+              transition: "border-bottom-color 0.7s ease",
+            }}
+          />
+        </div>
 
-            {/* Compass needle */}
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-                transition:
-                  "transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-            >
-              <div className="relative" style={{ width: 4, height: 150 }}>
-                <div
-                  className="absolute top-0 left-1/2 -translate-x-1/2"
-                  style={{
-                    width: 0,
-                    height: 0,
-                    borderLeft: "5px solid transparent",
-                    borderRight: "5px solid transparent",
-                    borderBottom: `75px solid ${MODE_COLORS[mode]}`,
-                    filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.25))",
-                    transition: "border-bottom-color 0.7s ease",
-                  }}
-                />
-                <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2"
-                  style={{
-                    width: 0,
-                    height: 0,
-                    borderLeft: "5px solid transparent",
-                    borderRight: "5px solid transparent",
-                    borderTop: `75px solid ${MODE_COLORS[mode]}44`,
-                    transition: "border-top-color 0.7s ease",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Center pivot */}
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background/50"
-              style={{
-                width: 14,
-                height: 14,
-                background: "var(--foreground)",
-                boxShadow:
-                  "0 0 0 2px rgba(255,255,255,0.15), 0 2px 6px rgba(0,0,0,0.2)",
-              }}
-            />
-
-            {/* Center mode info */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-10 text-center pointer-events-none">
-              <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/70">
-                {MODE_INFO[mode].title}
-              </div>
-              <div className="text-[9px] text-muted-foreground mt-0.5">
-                {MODE_INFO[mode].desc}
-              </div>
-            </div>
+        {/* ===== ACTIVE MODE LABEL below pointer ===== */}
+        <div
+          className="absolute pointer-events-none text-center"
+          style={{
+            left: "50%",
+            bottom: -28,
+            transform: "translateX(-50%)",
+            zIndex: 20,
+          }}
+        >
+          <div
+            className="text-[11px] font-bold uppercase tracking-[0.15em]"
+            style={{ color: MODE_COLORS[mode], transition: "color 0.7s ease" }}
+          >
+            {MODE_LABELS[mode]}
           </div>
         </div>
 
-        {/* Ambient glow */}
+        {/* ===== AMBIENT GLOW ===== */}
         <div
-          className="absolute -inset-8 rounded-full pointer-events-none -z-10"
+          className="absolute pointer-events-none -z-10"
           style={{
-            background: `radial-gradient(circle, ${MODE_COLORS[mode]}18 0%, transparent 65%)`,
-            filter: "blur(24px)",
+            inset: "-30% -20% -40% -20%",
+            borderRadius: "50%",
+            background: `radial-gradient(ellipse at 50% 60%, ${MODE_COLORS[mode]}22 0%, transparent 55%)`,
+            filter: "blur(30px)",
             transition: "background 0.7s ease",
           }}
         />
