@@ -1,62 +1,87 @@
 import { useMode, type Mode } from "./ModeContext";
 
+const MODE_ROTATION: Record<Mode, number> = {
+  studio: 0,
+  work: 120,
+  about: 240,
+};
+
+const MODE_COLORS: Record<Mode, string> = {
+  studio: "#991b42", // magenta
+  work: "#10668b",   // blue
+  about: "#855716",  // amber/gold
+};
+
 export function ModeSwitch() {
-  const { mode, setMode, cycleMode } = useMode();
-
-  const getRotation = (currentMode: Mode) => {
-    switch (currentMode) {
-      case "studio":
-        return 0;
-      case "work":
-        return 120;
-      case "about":
-        return 240;
-      default:
-        return 0;
-    }
-  };
-
-  const rotation = getRotation(mode);
+  const { mode, cycleMode } = useMode();
+  const rotation = MODE_ROTATION[mode];
 
   return (
-    <div className="group relative flex flex-col items-center justify-center">
-      {/* Outer blurred mode glow container */}
-      <div className="relative flex items-center justify-center">
+    <div className="group relative flex flex-col items-center gap-3">
+      {/* Wheel Window — half-circle, clips the disc */}
+      <div
+        className="relative"
+        style={{
+          width: 80,
+          height: 40,
+          perspective: 500,
+          overflow: "hidden",
+          borderRadius: "40px 40px 0 0",
+        }}
+      >
         {/* Glow backdrop */}
         <div
-          className="absolute h-12 w-12 rounded-full blur-md opacity-40 transition-colors duration-700 pointer-events-none"
-          style={{ backgroundColor: "var(--mode-glow, var(--primary))" }}
+          className="absolute inset-0 blur-xl opacity-50 transition-colors duration-700"
+          style={{ backgroundColor: MODE_COLORS[mode] }}
         />
 
-        {/* Clickable button wrapper */}
-        <button
-          type="button"
-          onClick={cycleMode}
-          aria-label={`Current mode: ${mode}. Click to switch mode.`}
-          className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-card p-1 shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        {/* The Disc — 3-sector pie, rotates on Z with 3D tilt */}
+        <div
+          className="absolute left-1/2 top-0 -translate-x-1/2"
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: "50%",
+            background: `conic-gradient(
+              ${MODE_COLORS.studio} 0deg 120deg,
+              ${MODE_COLORS.work} 120deg 240deg,
+              ${MODE_COLORS.about} 240deg 360deg
+            )`,
+            transformOrigin: "center center",
+            transform: `rotate(${rotation}deg) rotateX(55deg)`,
+            transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            boxShadow: "inset 0 0 20px rgba(0,0,0,0.15)",
+          }}
         >
-          {/* Conic Gradient Wheel */}
+          {/* Inner cutout ring for depth */}
           <div
-            className="relative h-9 w-9 rounded-full transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
-            style={{
-              transform: `rotate(${rotation}deg)`,
-              background:
-                "conic-gradient(from 0deg, #991b42 0deg 120deg, #10668b 120deg 240deg, #855716 240deg 360deg)",
-            }}
-          >
-            {/* Inner cutout ring */}
-            <div className="absolute inset-1.5 rounded-full bg-card shadow-inner" />
-          </div>
+            className="absolute inset-3 rounded-full bg-card shadow-inner"
+            style={{ boxShadow: "inset 0 2px 8px rgba(0,0,0,0.1)" }}
+          />
+        </div>
 
-          {/* Fixed Top Indicator Dot */}
-          <div className="absolute top-1.5 h-1.5 w-1.5 rounded-full bg-foreground shadow-sm pointer-events-none" />
-        </button>
+        {/* Fixed indicator dot at top center */}
+        <div
+          className="absolute left-1/2 top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-background shadow-sm"
+          style={{ zIndex: 10 }}
+        />
       </div>
 
-      {/* Mode Label on Hover / Active Indicator */}
-      <div className="absolute -bottom-6 text-[11px] font-medium tracking-wide text-muted-foreground uppercase opacity-80 group-hover:opacity-100 transition-opacity">
+      {/* Click target + label */}
+      <button
+        type="button"
+        onClick={cycleMode}
+        aria-label={`Current mode: ${mode}. Click to switch mode.`}
+        className="relative -mt-1 cursor-pointer rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted-foreground transition-all duration-300 hover:bg-primary/10 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
         {mode}
-      </div>
+      </button>
+
+      {/* Color burst glow below */}
+      <div
+        className="pointer-events-none absolute -bottom-4 h-8 w-24 rounded-full blur-xl transition-colors duration-700 opacity-40"
+        style={{ backgroundColor: MODE_COLORS[mode] }}
+      />
     </div>
   );
 }
