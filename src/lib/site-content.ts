@@ -126,13 +126,12 @@ export const site = {
       },
     ],
   },
-      contact: {
-      label: "Contact",
-      intro:
-        "I am open to collaborations on design systems, frontend architecture, and small business web projects. If you have an idea or a project in mind, reach out.",
-      email: "ahmedbaghni.may9@gmail.com",
-      linkedin: "https://linkedin.com/in/ahmedbaghni",
-      phone: "+62 815-5649-2671",
-    },
+  contact: {
+    label: "Contact",
+    intro:
+      "I am open to collaborations on design systems, frontend architecture, and small business web projects. If you have an idea or a project in mind, reach out.",
+    email: "ahmedbaghni.may9@gmail.com",
+    linkedin: "https://linkedin.com/in/ahmedbaghni",
+    phone: "+62 815-5649-2671",
   },
 };
