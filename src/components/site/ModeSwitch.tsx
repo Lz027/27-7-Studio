@@ -24,7 +24,6 @@ export function ModeSwitch() {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      {/* Instruction notice */}
       <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 font-medium">
         Click to switch mode
       </span>
@@ -68,9 +67,7 @@ export function ModeSwitch() {
                 style={{
                   width: i % 3 === 0 ? 2 : 1,
                   height: i % 3 === 0 ? 10 : 5,
-                  transform: `translate(-50%, -100%) rotate(${
-                    i * 30
-                  }deg) translateY(-92px)`,
+                  transform: `translate(-50%, -100%) rotate(${i * 30}deg) translateY(-92px)`,
                 }}
               />
             ))}
@@ -96,7 +93,6 @@ export function ModeSwitch() {
               }}
             >
               <div className="relative" style={{ width: 4, height: 150 }}>
-                {/* North (active) tip */}
                 <div
                   className="absolute top-0 left-1/2 -translate-x-1/2"
                   style={{
@@ -109,7 +105,6 @@ export function ModeSwitch() {
                     transition: "border-bottom-color 0.7s ease",
                   }}
                 />
-                {/* South tip */}
                 <div
                   className="absolute bottom-0 left-1/2 -translate-x-1/2"
                   style={{
