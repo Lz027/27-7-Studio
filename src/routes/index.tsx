@@ -45,39 +45,44 @@ function IndexContent() {
   const { mode } = useMode();
 
   return (
-    <div
-      data-mode={mode}
-      className="min-h-screen bg-background text-foreground transition-colors duration-700"
-    >
-      <Nav />
-      <main className="mx-auto max-w-4xl">
-        <Hero />
+    <>
+      {/* Ambient background orbs */}
+      <div data-mode={mode} className="ambient-bg" />
 
-        {mode === "studio" && (
-          <>
-            <Mission />
-            <Services />
-            <Testimonials />
-          </>
-        )}
+      <div
+        data-mode={mode}
+        className="min-h-screen bg-background text-foreground transition-colors duration-700"
+      >
+        <Nav />
+        <main className="mx-auto max-w-4xl">
+          <Hero />
 
-        {mode === "work" && (
-          <>
-            <Workstyle />
-            <Projects />
-          </>
-        )}
+          {mode === "studio" && (
+            <>
+              <Mission />
+              <Services />
+              <Testimonials />
+            </>
+          )}
 
-        {mode === "about" && (
-          <>
-            <Biography />
-            <Journey />
-            <Publications />
-            <ContactAbout />
-          </>
-        )}
-      </main>
-      <Footer />
-    </div>
+          {mode === "work" && (
+            <>
+              <Workstyle />
+              <Projects />
+            </>
+          )}
+
+          {mode === "about" && (
+            <>
+              <Biography />
+              <Journey />
+              <Publications />
+              <ContactAbout />
+            </>
+          )}
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
