@@ -1,15 +1,17 @@
 import { useMode, type Mode } from "./ModeContext";
 
+const MODE_ORDER: Mode[] = ["studio", "work", "about"];
+
 const MODE_ROTATION: Record<Mode, number> = {
   studio: 0,
-  work: 120,
-  about: 240,
+  work: -120,
+  about: 120,
 };
 
-const MODE_COLORS: Record<Mode, string> = {
+const MODE_COLORS = {
   studio: "#991b42", // magenta
   work: "#10668b",   // blue
-  about: "#855716",  // amber/gold
+  about: "#c4942a",  // amber/gold (brighter for visibility)
 };
 
 export function ModeSwitch() {
@@ -17,71 +19,111 @@ export function ModeSwitch() {
   const rotation = MODE_ROTATION[mode];
 
   return (
-    <div className="group relative flex flex-col items-center gap-3">
-      {/* Wheel Window — half-circle, clips the disc */}
+    <button
+      type="button"
+      onClick={cycleMode}
+      aria-label={`Current mode: ${mode}. Click to switch mode.`}
+      className="group relative cursor-pointer"
+      style={{
+        width: 260,
+        height: 200,
+        // Tilted 3D perspective
+        transform: "perspective(700px) rotateX(45deg) rotateZ(-18deg)",
+        transformStyle: "preserve-3d",
+      }}
+    >
+      {/* ===== GAUGE MASK — semi-circle window ===== */}
       <div
-        className="relative"
+        className="absolute inset-0 overflow-hidden"
         style={{
-          width: 80,
-          height: 40,
-          perspective: 500,
-          overflow: "hidden",
-          borderRadius: "40px 40px 0 0",
+          // Flat side on left, arc on right — "D" shape
+          borderRadius: "0 50% 50% 0",
+          // Liquid glass base
+          background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))",
+          backdropFilter: "blur(20px) saturate(160%) brightness(1.05)",
+          WebkitBackdropFilter: "blur(20px) saturate(160%) brightness(1.05)",
+          border: "1px solid rgba(255,255,255,0.18)",
+          boxShadow: `
+            inset 0 1px 2px rgba(255,255,255,0.25),
+            0 12px 40px -8px rgba(0,0,0,0.15),
+            0 0 0 1px rgba(255,255,255,0.08)
+          `,
         }}
       >
-        {/* Glow backdrop */}
+        {/* ===== THE DISC — 3-sector pie ===== */}
         <div
-          className="absolute inset-0 blur-xl opacity-50 transition-colors duration-700"
-          style={{ backgroundColor: MODE_COLORS[mode] }}
-        />
-
-        {/* The Disc — 3-sector pie, rotates on Z with 3D tilt */}
-        <div
-          className="absolute left-1/2 top-0 -translate-x-1/2"
+          className="absolute"
           style={{
-            width: 80,
-            height: 80,
+            width: 360,
+            height: 360,
+            left: -140,
+            top: -80,
             borderRadius: "50%",
             background: `conic-gradient(
-              ${MODE_COLORS.studio} 0deg 120deg,
-              ${MODE_COLORS.work} 120deg 240deg,
-              ${MODE_COLORS.about} 240deg 360deg
+              from 0deg,
+              ${MODE_COLORS.work} 0deg 120deg,
+              ${MODE_COLORS.about} 120deg 240deg,
+              ${MODE_COLORS.studio} 240deg 360deg
             )`,
-            transformOrigin: "center center",
-            transform: `rotate(${rotation}deg) rotateX(55deg)`,
-            transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
-            boxShadow: "inset 0 0 20px rgba(0,0,0,0.15)",
+            transform: `rotate(${rotation}deg)`,
+            transition: "transform 0.9s cubic-bezier(0.34, 1.8, 0.64, 1)",
+            // Inner depth ring
+            boxShadow: "inset 0 0 60px rgba(0,0,0,0.2), inset 0 0 12px rgba(0,0,0,0.1)",
           }}
-        >
-          {/* Inner cutout ring for depth */}
-          <div
-            className="absolute inset-3 rounded-full bg-card shadow-inner"
-            style={{ boxShadow: "inset 0 2px 8px rgba(0,0,0,0.1)" }}
-          />
-        </div>
+        />
 
-        {/* Fixed indicator dot at top center */}
+        {/* ===== LIQUID GLASS OVERLAY ===== */}
         <div
-          className="absolute left-1/2 top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-background shadow-sm"
-          style={{ zIndex: 10 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.08) 0%, transparent 50%)
+            `,
+            mixBlendMode: "overlay",
+          }}
+        />
+
+        {/* ===== BLURRED EDGES MASK ===== */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            boxShadow: "inset 0 0 30px 12px rgba(255,255,255,0.35)",
+          }}
         />
       </div>
 
-      {/* Click target + label */}
-      <button
-        type="button"
-        onClick={cycleMode}
-        aria-label={`Current mode: ${mode}. Click to switch mode.`}
-        className="relative -mt-1 cursor-pointer rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted-foreground transition-all duration-300 hover:bg-primary/10 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-      >
-        {mode}
-      </button>
-
-      {/* Color burst glow below */}
+      {/* ===== FIXED POINTER ===== */}
       <div
-        className="pointer-events-none absolute -bottom-4 h-8 w-24 rounded-full blur-xl transition-colors duration-700 opacity-40"
-        style={{ backgroundColor: MODE_COLORS[mode] }}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1"
+        style={{ zIndex: 20 }}
+      >
+        <div
+          style={{
+            width: 0,
+            height: 0,
+            borderTop: "6px solid transparent",
+            borderBottom: "6px solid transparent",
+            borderLeft: "10px solid var(--foreground)",
+            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
+            transition: "border-left-color 0.7s ease",
+          }}
+        />
+      </div>
+
+      {/* ===== MODE GLOW BELOW ===== */}
+      <div
+        className="absolute -bottom-4 left-1/2 -translate-x-1/2 pointer-events-none"
+        style={{
+          width: 180,
+          height: 40,
+          borderRadius: "50%",
+          background: MODE_COLORS[mode],
+          filter: "blur(24px)",
+          opacity: 0.35,
+          transition: "background 0.7s ease, opacity 0.7s ease",
+        }}
       />
-    </div>
+    </button>
   );
 }
