@@ -8,15 +8,15 @@ export function Hero() {
   const heroContent = site.hero[mode];
 
   return (
-    <section id="top" className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-12">
-      <div className="mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-8">
-        {/* Left Column: Text & CTA */}
-        <div className="flex-1 animate-fade-up">
+    <section id="top" className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-12 mode-burst-bg">
+      <div className="relative z-10 mx-auto max-w-4xl flex flex-col md:flex-row md:items-center justify-between gap-8">
+        {/* Left Column */}
+        <div className="flex-1 reveal visible">
           <span className="inline-block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {heroContent.label}
           </span>
 
-          <h1 className="mt-3 text-3xl font-display leading-[1.1] text-foreground sm:text-5xl">
+          <h1 className="mt-3 text-3xl font-display leading-[1.1] text-primary sm:text-5xl transition-colors duration-700">
             {heroContent.title}
           </h1>
 
@@ -35,8 +35,8 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Mode Switch & Visual Reveal */}
-        <div className="flex flex-col items-center justify-center md:items-end animate-fade-up-delay-1">
+        {/* Right Column */}
+        <div className="flex flex-col items-center justify-center md:items-end reveal visible reveal-delay-1">
           <div className="flex flex-col items-center gap-4 bg-card/60 p-6 rounded-2xl border border-border/40 shadow-sm backdrop-blur-sm">
             <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
               Switch Mode
