@@ -4,6 +4,7 @@ import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Mission } from "@/components/site/Mission";
 import { Services } from "@/components/site/Services";
+import { Testimonials } from "@/components/site/Testimonials";
 import { Workstyle } from "@/components/site/Workstyle";
 import { Projects } from "@/components/site/Projects";
 import { Biography } from "@/components/site/Biography";
@@ -44,7 +45,10 @@ function IndexContent() {
   const { mode } = useMode();
 
   return (
-    <div data-mode={mode} className="min-h-screen bg-background text-foreground transition-colors duration-700">
+    <div
+      data-mode={mode}
+      className="min-h-screen bg-background text-foreground transition-colors duration-700"
+    >
       <Nav />
       <main className="mx-auto max-w-4xl">
         <Hero />
@@ -53,6 +57,7 @@ function IndexContent() {
           <>
             <Mission />
             <Services />
+            <Testimonials />
           </>
         )}
 
