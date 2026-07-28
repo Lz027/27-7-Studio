@@ -13,9 +13,7 @@ export function Projects() {
         </div>
 
         <div ref={ref} className="space-y-8">
-          {/* Asymmetric Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Left Column */}
             <div className="space-y-6">
               {site.projects.items.slice(0, 2).map((proj, i) => (
                 <ProjectCard
@@ -26,8 +24,6 @@ export function Projects() {
                 />
               ))}
             </div>
-
-            {/* Right Column (offset) */}
             <div className="md:pt-8">
               {site.projects.items.slice(2, 3).map((proj) => (
                 <ProjectCard
