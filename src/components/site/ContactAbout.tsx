@@ -1,6 +1,6 @@
+import { Mail, Linkedin, Phone } from "lucide-react";
 import { site } from "@/lib/site-content";
 import { useInView } from "@/hooks/useInView";
-import { Mail, ExternalLink } from "lucide-react";
 
 export function ContactAbout() {
   const { ref, inView } = useInView({ threshold: 0.2 });
@@ -17,23 +17,33 @@ export function ContactAbout() {
             {site.contact.intro}
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             <a
               href={`mailto:${site.contact.email}`}
               className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover-glow"
             >
               <Mail className="h-4 w-4" />
-              {site.contact.email}
+              Email
             </a>
 
             <a
-              href={site.contact.shoseki}
+              href={site.contact.linkedin}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-accent hover-lift"
             >
-              <ExternalLink className="h-4 w-4" />
-              Shoseki
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </a>
+
+            <a
+              href={`https://wa.me/${site.contact.phone.replace(/\D/g, "")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-accent hover-lift"
+            >
+              <Phone className="h-4 w-4" />
+              WhatsApp
             </a>
           </div>
         </div>
