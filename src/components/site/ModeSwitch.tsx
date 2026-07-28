@@ -21,15 +21,15 @@ const MODE_DESCS: Record<Mode, string> = {
 
 export function ModeSwitch() {
   const { mode, cycleMode } = useMode();
-  const [rotation, setRotation] = useState(255);
+  const [rotation, setRotation] = useState(187);
   const [isSpinning, setIsSpinning] = useState(false);
 
   const handleClick = useCallback(() => {
     if (isSpinning) return;
     setIsSpinning(true);
     cycleMode();
-    setRotation((prev) => prev + 120);
-    setTimeout(() => setIsSpinning(false), 1200);
+    setRotation((prev) => prev - 120);
+    setTimeout(() => setIsSpinning(false), 1400);
   }, [cycleMode, isSpinning]);
 
   return (
@@ -50,7 +50,20 @@ export function ModeSwitch() {
           transformOrigin: "center center",
         }}
       >
-        {/* ===== BASE COLORED RING (muted) ===== */}
+        {/* ===== AMBIENT GLOW BEHIND RING ===== */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            inset: "-15%",
+            borderRadius: "50%",
+            background: `radial-gradient(circle at 30% 70%, ${MODE_COLORS[mode]}30 0%, transparent 55%)`,
+            filter: "blur(24px)",
+            transition: "background 0.7s ease",
+            zIndex: 1,
+          }}
+        />
+
+        {/* ===== BASE RING (all colors, muted) ===== */}
         <div
           className="absolute inset-0"
           style={{
@@ -63,24 +76,43 @@ export function ModeSwitch() {
             )`,
             transform: `rotate(${rotation}deg)`,
             transition: "transform 1.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
-            opacity: 0.22,
+            opacity: 0.2,
             mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             zIndex: 2,
           }}
         />
 
-        {/* ===== ACTIVE SECTOR HIGHLIGHT (on the ring, bottom-left) ===== */}
+        {/* ===== ACTIVE SECTOR RING (vivid, same rotation) ===== */}
+        <div
+          className="absolute inset-0"
+          style={{
+            borderRadius: "50%",
+            background: `conic-gradient(
+              from -90deg,
+              ${MODE_COLORS[mode]} 0deg 120deg,
+              transparent 120deg 360deg
+            )`,
+            transform: `rotate(${rotation}deg)`,
+            transition: "transform 1.4s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.7s ease",
+            opacity: 0.9,
+            mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
+            WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
+            zIndex: 3,
+          }}
+        />
+
+        {/* ===== ACTIVE SECTOR INNER GLOW ===== */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             borderRadius: "50%",
-            background: `radial-gradient(circle at 28% 72%, ${MODE_COLORS[mode]}88 0%, ${MODE_COLORS[mode]}22 35%, transparent 55%)`,
+            background: `radial-gradient(circle at 30% 70%, ${MODE_COLORS[mode]}40 0%, transparent 45%)`,
             mixBlendMode: "screen",
             transition: "background 0.7s ease",
             mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
-            zIndex: 3,
+            zIndex: 4,
           }}
         />
 
@@ -89,19 +121,19 @@ export function ModeSwitch() {
           className="absolute inset-0"
           style={{
             borderRadius: "50%",
-            backdropFilter: "blur(10px) saturate(150%)",
-            WebkitBackdropFilter: "blur(10px) saturate(150%)",
+            backdropFilter: "blur(8px) saturate(140%)",
+            WebkitBackdropFilter: "blur(8px) saturate(140%)",
             background:
-              "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
+              "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)",
             mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             boxShadow:
-              "inset 0 1px 3px rgba(255,255,255,0.2), inset 0 -1px 2px rgba(0,0,0,0.03)",
-            zIndex: 4,
+              "inset 0 1px 2px rgba(255,255,255,0.2), inset 0 -1px 2px rgba(0,0,0,0.03)",
+            zIndex: 5,
           }}
         />
 
-        {/* ===== RIM LINES ===== */}
+        {/* ===== OUTER RIM ===== */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -109,9 +141,11 @@ export function ModeSwitch() {
             border: "1px solid rgba(255,255,255,0.15)",
             mask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
             WebkitMask: "radial-gradient(circle, transparent 52%, black 53%, black 100%)",
-            zIndex: 5,
+            zIndex: 6,
           }}
         />
+
+        {/* ===== INNER RIM ===== */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -119,58 +153,57 @@ export function ModeSwitch() {
             border: "1px solid rgba(255,255,255,0.08)",
             mask: "radial-gradient(circle, transparent 50%, black 51%, black 52%, transparent 53%)",
             WebkitMask: "radial-gradient(circle, transparent 50%, black 51%, black 52%, transparent 53%)",
-            zIndex: 5,
+            zIndex: 6,
           }}
         />
 
-        {/* ===== CENTER GLASS DISC ===== */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+        {/* ===== CENTER DISC ===== */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 transition-transform duration-300 ease-out group-hover:scale-105"
+          style={{
+            width: 120,
+            height: 120,
+            borderRadius: "50%",
+            background:
+              "linear-gradient(160deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 100%)",
+            backdropFilter: "blur(10px) saturate(120%)",
+            WebkitBackdropFilter: "blur(10px) saturate(120%)",
+            border: `1.5px solid ${MODE_COLORS[mode]}50`,
+            boxShadow: `
+              0 0 28px -6px ${MODE_COLORS[mode]}35,
+              0 4px 16px -4px rgba(0,0,0,0.08),
+              inset 0 1px 2px rgba(255,255,255,0.2),
+              inset 0 -1px 1px rgba(0,0,0,0.03)
+            `,
+            transition: "border-color 0.7s ease, box-shadow 0.7s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
           <div
-            className="transition-transform duration-400 ease-out group-hover:scale-108"
+            className="text-[13px] font-bold uppercase tracking-[0.18em]"
             style={{
-              width: 125,
-              height: 125,
-              borderRadius: "50%",
-              background:
-                "linear-gradient(160deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 100%)",
-              backdropFilter: "blur(8px) saturate(130%)",
-              WebkitBackdropFilter: "blur(8px) saturate(130%)",
-              border: `1px solid ${MODE_COLORS[mode]}35`,
-              boxShadow: `
-                0 0 20px -4px ${MODE_COLORS[mode]}40,
-                0 4px 20px -6px rgba(0,0,0,0.08),
-                inset 0 1px 2px rgba(255,255,255,0.2)
-              `,
-              transition: "border-color 0.7s ease, box-shadow 0.7s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
+              color: MODE_COLORS[mode],
+              transition: "color 0.7s ease",
             }}
           >
-            <div
-              className="text-[13px] font-bold uppercase tracking-[0.18em]"
-              style={{
-                color: MODE_COLORS[mode],
-                transition: "color 0.7s ease",
-              }}
-            >
-              {MODE_LABELS[mode]}
-            </div>
-            <div className="text-[9px] text-muted-foreground mt-1 uppercase tracking-wider">
-              {MODE_DESCS[mode]}
-            </div>
+            {MODE_LABELS[mode]}
+          </div>
+          <div className="text-[9px] text-muted-foreground mt-1 uppercase tracking-wider">
+            {MODE_DESCS[mode]}
           </div>
         </div>
 
-        {/* ===== AMBIENT GLOW ===== */}
+        {/* ===== OUTER AMBIENT GLOW ===== */}
         <div
           className="absolute pointer-events-none -z-10"
           style={{
             inset: "-25%",
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${MODE_COLORS[mode]}15 0%, transparent 60%)`,
+            background: `radial-gradient(circle, ${MODE_COLORS[mode]}12 0%, transparent 60%)`,
             filter: "blur(32px)",
             transition: "background 0.7s ease",
           }}
