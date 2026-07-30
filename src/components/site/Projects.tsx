@@ -46,33 +46,35 @@ function ProjectCard({
   inView: boolean;
   delay: number;
 }) {
+  const t = project.theme;
+
   return (
     <div
-      className={`group rounded-2xl bg-card border p-5 transition-all duration-300 hover:-translate-y-1 reveal ${
+      className={`group rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 reveal ${
         inView ? "visible" : ""
       } reveal-delay-${Math.min(delay, 4)}`}
       style={{
-        borderColor: `${project.color}22`,
-        boxShadow: `0 1px 3px ${project.color}08`,
-        transition: "border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease",
+        backgroundColor: t.bg,
+        borderColor: t.border,
+        boxShadow: `0 2px 8px ${project.color}15`,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = `${project.color}50`;
-        e.currentTarget.style.boxShadow = `0 8px 24px -6px ${project.color}20`;
+        e.currentTarget.style.boxShadow = `0 12px 32px -8px ${project.color}35`;
+        e.currentTarget.style.borderColor = project.color;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = `${project.color}22`;
-        e.currentTarget.style.boxShadow = `0 1px 3px ${project.color}08`;
+        e.currentTarget.style.boxShadow = `0 2px 8px ${project.color}15`;
+        e.currentTarget.style.borderColor = t.border;
       }}
     >
       {/* Header: Logo + Title */}
       <div className="flex items-center gap-3">
-        {/* Logo */}
+        {/* Logo container */}
         <div
           className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden shrink-0"
           style={{
-            background: `${project.color}12`,
-            border: `1px solid ${project.color}20`,
+            background: t.logoBg,
+            border: `1px solid ${t.logoBorder}`,
           }}
         >
           {project.logo ? (
@@ -83,19 +85,22 @@ function ProjectCard({
               loading="lazy"
             />
           ) : (
-            <div
-              className="w-7 h-7 rounded-lg"
-              style={{ background: project.color }}
-            />
+            <div className="w-7 h-7 rounded-lg" style={{ background: project.color }} />
           )}
         </div>
 
         {/* Title + Year */}
         <div className="min-w-0">
-          <h3 className="text-base font-bold font-display text-foreground leading-tight">
+          <h3
+            className="text-base font-bold font-display leading-tight"
+            style={{ color: t.text }}
+          >
             {project.name}
           </h3>
-          <span className="text-[10px] font-mono text-muted-foreground">
+          <span
+            className="text-[10px] font-mono"
+            style={{ color: t.muted }}
+          >
             {project.year}
           </span>
         </div>
@@ -108,8 +113,8 @@ function ProjectCard({
             key={tag}
             className="rounded-md px-2 py-0.5 text-[10px] font-medium"
             style={{
-              background: `${project.color}12`,
-              color: project.color,
+              background: t.tagBg,
+              color: t.tagText,
             }}
           >
             {tag}
@@ -118,7 +123,10 @@ function ProjectCard({
       </div>
 
       {/* Description */}
-      <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+      <p
+        className="mt-3 text-xs leading-relaxed"
+        style={{ color: t.muted }}
+      >
         {project.description}
       </p>
 
@@ -128,7 +136,7 @@ function ProjectCard({
         target="_blank"
         rel="noreferrer"
         className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium transition-colors group/link"
-        style={{ color: project.color }}
+        style={{ color: t.text }}
       >
         <span>Visit project</span>
         <ExternalLink className="h-3 w-3 transition-transform group-hover/link:translate-x-0.5" />
