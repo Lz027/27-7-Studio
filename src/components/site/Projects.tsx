@@ -1,4 +1,4 @@
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { site } from "@/lib/site-content";
 import { useInView } from "@/hooks/useInView";
 
