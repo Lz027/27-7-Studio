@@ -106,7 +106,7 @@ export const site = {
   },
   biography: {
     label: "Biography",
-    text: "I am Ahmed Baghni, an Informatics Engineering student and founder of 27/7 Studio. I was one of only two students selected from Libya for the Genusian Scholarship, and I moved to Indonesia in 2023 to study at Nusa Putra University, where I gained deeper access to AI, smart technology, UI/UX thinking, and frontend logic. My work combines creativity, business thinking, and practical execution. One of my projects, Shoseki, brings together 250 tools to solve the problem of scattered, hard-to-find useful resources. My research paper reflects the same structured approach to technical work. I made this site to present my work clearly, build trust, and show how I can help.",
+    text: "I am Ahmed Baghni, an Informatics Engineering student and founder of 27/7 Studio. I was one of only two students selected from Libya for the Genusian Scholarship, and I moved to Indonesia in 2023 to study at Nusa Putra University, where I gained deeper access to AI, smart technology, UI/UX thinking, and frontend logic. My work combines creativity, business thinking, and practical execution. I made this site to present my work clearly, build trust, and show how I can help.",
   },
   journey: {
     label: "Journey",
