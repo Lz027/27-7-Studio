@@ -37,12 +37,10 @@ export function Publications() {
               >
                 {/* Main row */}
                 <a
-                  href={item.url !== "#" ? item.url : undefined}
+                  href={item.url}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer" : undefined}
-                  className={`flex items-center gap-4 p-4 ${
-                    item.url === "#" ? "cursor-default" : "cursor-pointer"
-                  }`}
+                  className="flex items-center gap-4 p-4 cursor-pointer"
                 >
                   {/* Type icon */}
                   <div
