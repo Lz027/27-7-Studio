@@ -127,7 +127,7 @@ export const site = {
       {
         title: "The Shoseki Index: 250 AI Tools for Small Business",
         type: "Guide",
-        date: "2024",
+        date: "2025",
         url: "https://mega.nz/file/ySIgiQYK#8TAkp8JWmDmNURsbWSGq_MeijSzmNnABO45EfWcoaTs",
         action: "Download PDF",
         description:
