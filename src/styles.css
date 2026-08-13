@@ -44,10 +44,11 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
 }
@@ -139,12 +140,24 @@
 
 /* Section label */
 .section-label {
-  @apply text-[11px] font-medium uppercase tracking-widest text-muted-foreground sticky top-20;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #78716C;
+  position: sticky;
+  top: 5rem;
 }
 
 /* Highlight link */
 .highlight-link {
-  @apply text-primary hover:underline font-medium;
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.highlight-link:hover {
+  text-decoration: underline;
 }
 
 /* ============================================
