@@ -1,4 +1,4 @@
-import { Check, MessageCircle, ArrowUpRight } from "lucide-react";
+import { Check, MessageCircle } from "lucide-react";
 import { site } from "@/lib/site-content";
 import { useMode } from "./ModeContext";
 import { useInView } from "@/hooks/useInView";
@@ -6,7 +6,7 @@ import { useInView } from "@/hooks/useInView";
 const PAYPAL_BASIC = "https://www.paypal.com/ncp/payment/5DNCMAAJKFY4J";
 const PAYPAL_FULL = "https://www.paypal.com/ncp/payment/WFKL2HQJRCC9U";
 const WA_CHAT =
-  "https://wa.me/6281556492671?text=Let%27s%20get%20started%20on%20my%20website%21";
+  "https://wa.me/6281556492671?text=Hi%20Ahmed%2C%20I%27m%20looking%20at%20your%20packages%20and%20have%20a%20few%20questions%20before%20ordering.";
 const WA_ENTERPRISE =
   "https://wa.me/6281556492671?text=Hi%20Ahmed%2C%20I%27m%20interested%20in%20the%20Enterprise%20package.%20Can%20we%20discuss%20my%20project%3F";
 
@@ -15,14 +15,14 @@ export function Services() {
   const { ref, inView } = useInView({ threshold: 0.15 });
 
   return (
-    <section id="services" className="px-4 py-10 md:px-6 md:py-12 border-t border-border/40">
+    <section id="services" className="px-6 py-12 border-t border-border/40">
       <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-[140px_1fr] gap-6 md:gap-12">
         <div>
           <span className="section-label">{site.services.label}</span>
         </div>
 
         <div ref={ref} className="space-y-5">
-          {/* Banner */}
+          {/* Work mode banner */}
           <div
             className={`rounded-lg bg-card/80 p-3 text-center sm:text-left border border-border/50 reveal ${
               inView ? "visible" : ""
@@ -47,8 +47,8 @@ export function Services() {
             } reveal-delay-1`}
           >
             <MessageCircle className="h-5 w-5 text-green-600 shrink-0" />
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-foreground">
+            <div>
+              <p className="text-xs font-medium text-foreground">
                 Not sure which plan fits?
               </p>
               <p className="text-[11px] text-muted-foreground">
@@ -110,23 +110,9 @@ export function Services() {
                       href={href}
                       target="_blank"
                       rel="noreferrer"
-                      className={`flex h-11 w-full items-center justify-center gap-1.5 rounded-md text-sm font-medium transition-all active:scale-[0.98] ${
-                        tier.price === "Custom"
-                          ? "border border-border bg-card text-foreground hover:bg-accent"
-                          : "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground hover-glow"
-                      }`}
+                      className="block w-full text-center rounded-md bg-primary/10 text-primary text-sm font-medium py-2 transition-all hover:bg-primary hover:text-primary-foreground hover-glow"
                     >
-                      {tier.price === "Custom" ? (
-                        <>
-                          <MessageCircle className="h-4 w-4" />
-                          {label}
-                        </>
-                      ) : (
-                        <>
-                          {label}
-                          <ArrowUpRight className="h-3.5 w-3.5" />
-                        </>
-                      )}
+                      {label}
                     </a>
                   </div>
                 </div>
